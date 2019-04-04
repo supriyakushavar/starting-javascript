@@ -102,63 +102,51 @@
             
             mytable.addEventListener( "keydown", function(e){
                 if(e.keyCode == 13){
-                    var inputs = mytable.getElementsByTagName("input");
-                    if(inputs[0].value == ""){
-                        alert("Name is required");
-                        return false;
-                    }
-                    if(inputs[1].value == ""){
-                        alert("Pizza type is required");
-                        return false;
-                    }
-                    if(inputs[2].value == ""){
-                        alert("Pizza Size is required");
-                        return false;
-                    }
-                    
 
-                    var row = mytable.insertRow(-1);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
-                    var name = document.getElementById("name");
-                    var pizza = document.getElementById("pizza");
-                    var size = document.getElementById("size");
-                    var remark = document.getElementById("remarks");
-                    cell1.innerHTML = name.value;
-                    cell2.innerHTML = pizza.value;
-                    cell3.innerHTML = size.value;
-                    cell4.innerHTML = remark.value;
-                    cell5.innerHTML = "Delete";
-                    cell5.setAttribute("onclick","removeRow(this)");
-                    name.value = "";
-                    pizza.value = "";
-                    size.value = "";
-                    remark.value = "";
-                    // for(var i=0 ; i < inputs.lenght; i++){
-                    //     switch(inputs[i].name){
-                    //         case 'fname':
-                    //         if(inputs[i].value.length > 0)continue; alert("First name is a required field.");
-                    //         break;
-                    //         case 'pizza':
-                    //         if(inputs[i].value.length > 0)continue; alert("First name is a required field.");
-                    //         break;
-                    //         case 'size':
-                    //         if(inputs[i].value.length > 0)continue; alert("First name is a required field.");
-                    //         break;
-                    //     }
-                    // }
+                    var inputs = mytable.getElementsByTagName("input");
+                    if(inputs[0].value == ""  ){
+                        toastr["warning"]("Name Feild Required")
+                        return false;
+                    }else
                     
-                    
+                    if(inputs[1].value == ""){
+                        toastr["warning"]("Pizza type is Reuired")
+                        return false;
+                    }
+                    else
+                    if(inputs[2].value == ""){
+                        toastr["warning"]("Pizza size is reauired")
+                        return false;
+                    }
+                    else{
+                        var row = mytable.insertRow(-1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        var name = document.getElementById("name");
+                        var pizza = document.getElementById("pizza");
+                        var size = document.getElementById("size");
+                        var remark = document.getElementById("remarks");
+                        cell1.innerHTML = name.value;
+                        cell2.innerHTML = pizza.value;
+                        cell3.innerHTML = size.value;
+                        cell4.innerHTML = remark.value;
+                        cell5.innerHTML = "Delete";
+                        cell5.addEventListener("click" , function(){
+                            mytable.deleteRow(this.parentNode.rowIndex); 
+                        });
+                        name.value = "";
+                        pizza.value = "";
+                        size.value = "";
+                        remark.value = "";
+                        return false;
+                    }
                 }
-                
             });
             
-            function removeRow(cellindex){
-                var del = mytable.deleteRow(cellindex.parentNode.rowIndex); 
-            }
+            
         </script>
     </div>
     <!-- END OF Part 2 -->
@@ -187,7 +175,6 @@
 
         </div>
         <script>
-            // Write your code here
         </script>
     </div>
     <!-- END OF Part 3 -->
@@ -373,7 +360,32 @@
             </table>
         </div>
         <script>
-            // Write your code here
+            var input = document.getElementById("searchInput");
+            input.addEventListener("keyup",function(){
+                var  filter, table, tr, td, i,j , txtValue;
+                filter = input.value.toUpperCase();
+                 table = document.getElementById("searchTable");
+                 var rows = table.getElementsByTagName("tr");
+                 for (i = 0; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName("td");
+                    var rowContainsFilter = false;
+                    for (j = 0; j < cells.length; j++) {
+                        if (cells[j]) {
+                            if (cells[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                rowContainsFilter = true;
+                                continue;
+                            }
+                        }
+                    }
+
+                    if (! rowContainsFilter) {
+                        rows[i].style.display = "none";
+                    } else {
+                        rows[i].style.display = "";
+                    }
+                }
+            });
+            
         </script>
     </div>
     <!-- END OF Part 4 -->
@@ -415,7 +427,7 @@
         <div class="col-12 bg-white shadow-sm p-4 mx-auto mt-4">
             <h3>Part 7: Sliiiiiders</h3>
             <p>Recreate this very intuitive user interface. Insert the DOM nodes (html elements) using document.createElement();</p>
-            <!-- <img src="../input.gif" alt="Interface" /> -->
+            <img src="input.gif" alt="Interface" />
             <hr/>
             <br/>
 
@@ -457,7 +469,7 @@
         "debug": false,
         "newestOnTop": false,
         "progressBar": true,
-        "positionClass": "toast-bottom-right",
+        "positionClass": "toast-top-right",
         "preventDuplicates": false,
         "onclick": null,
         "showDuration": "300",
