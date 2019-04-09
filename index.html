@@ -175,6 +175,33 @@
 
         </div>
         <script>
+            var btnlaunchMe = document.getElementById("launchMe");
+            btnlaunchMe.addEventListener("click" , menuList);
+            function menuList(){
+                var menuListUl = document.createElement("ul");
+                menuListUl.id="menuListId";
+                var spanListParent = document.getElementById("listHolder");
+                var spanCount = spanListParent.getElementsByTagName("span");
+                spanListParent.appendChild(menuListUl);
+                for(var i= 0; i < spanCount.length ; i++){
+                    var li = document.createElement("li");
+                    menuListUl.appendChild(li);
+                    li.innerHTML = spanCount[i].innerHTML;
+                    var spanli = spanListParent.querySelectorAll("span");
+                }
+                for (index = spanCount.length - 1; index >= 0; index--) {
+                    spanCount[index].parentNode.removeChild(spanCount[index]);
+                }
+                var input = document.createElement("input");
+                menuListUl.lastChild.innerHTML = "";
+                menuListUl.lastChild.appendChild(input);
+                if(input.value == ""){
+                    input.placeholder = "Choose your final ingredient";
+                }
+                input.addEventListener("blur" , function(){
+                    menuListUl.lastChild.innerHTML = input.value;
+                }) 
+            }
         </script>
     </div>
     <!-- END OF Part 3 -->
@@ -362,12 +389,12 @@
         <script>
             var input = document.getElementById("searchInput");
             input.addEventListener("keyup",function(){
-                var  filter, table, tr, td, i,j , txtValue;
+                var  filter, table, tr, td, i ,j , txtValue;
                 filter = input.value.toUpperCase();
-                 table = document.getElementById("searchTable");
-                 var rows = table.getElementsByTagName("tr");
-                 for (i = 0; i < rows.length; i++) {
-                    var cells = rows[i].getElementsByTagName("td");
+                table = document.getElementById("searchTable");
+                var rows = table.getElementsByTagName("tr");
+                 for (i = 1; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
                     var rowContainsFilter = false;
                     for (j = 0; j < cells.length; j++) {
                         if (cells[j]) {
@@ -384,8 +411,32 @@
                         rows[i].style.display = "";
                     }
                 }
+
+
             });
-            
+            function addCheckbox(){
+                var table = document.getElementById("searchTable");
+                var rows = table.getElementsByTagName("tr");
+                var thead = table.querySelector("thead");
+                var coulumnsCount = document.getElementById('searchTable').rows[0].cells.length;
+                for(var j= 0 ; j< coulumnsCount; j++){
+                    let checkboxName = document.createElement("input");
+                    checkboxName.type = "checkbox";
+                    checkboxName.name = "checkname";
+                    table.rows[0].cells[j].appendChild(checkboxName);
+                    checkboxName.checked = "true";
+                    checkboxName.onchange = function(event) {
+                        columnPos = Array.from(thead.querySelectorAll('input')).indexOf(checkboxName);
+                        for (i = 0; i < rows.length; i++) {
+                            var firstRow = document.getElementById("searchTable").rows[i];
+                            firstRow.deleteCell(columnPos);
+                    
+                        }
+                    };   
+                }
+            }  
+            addCheckbox(); 
+           
         </script>
     </div>
     <!-- END OF Part 4 -->
@@ -401,7 +452,25 @@
             <div id="moveAnimation" class="block"></div>
         </div>
         <script>
-            // Write your code here
+            function move(){
+                var block = document.getElementById("moveAnimation");
+                var leftPos = block.style.left;
+                leftPos == 0 + "%";
+                var id = setInterval(frame, 7000);
+                function frame(){
+                    block.style.transition = 2 + "s"; 
+                    block.style.left = 100 + "%";
+                }
+                block.addEventListener("transitionend" , function(){
+                    block.style.transition = 5 + "s"; 
+                    block.style.left = 0 + "%";
+                });
+                // block.addEventListener("transitionstart" , function(){
+                //     block.style.transition = 2 + "s"; 
+                //     block.style.left = 100 + "%";
+                // });
+            }
+            move();
         </script>
     </div>
     <!-- END OF Part 5 -->
@@ -417,7 +486,18 @@
             <div id="followMouse" class="block"></div>
         </div>
         <script>
-            // Write your code here
+            
+        var boxMove = document.getElementById('followMouse');
+        var boxParent = boxMove.parentNode.parentNode;
+        maxPos = 1403 + "px";
+        if(boxMove.style.left > maxPos){
+            boxParent.removeEventListener('mousemove', moveBox);
+        }else{
+            boxParent.addEventListener('mousemove', moveBox);
+        }
+        function moveBox(){
+            boxMove.style.left = event.clientX + "px";
+        }
         </script>
     </div>
     <!-- END OF Part 6 -->
@@ -434,7 +514,22 @@
             <div id="target"></div>
         </div>
         <script>
-            // Write your code here
+            var worktarget = document.getElementById("target");
+            var myName = document.createElement("p");
+            myName.innerHTML ="Enter your first name:";
+            myName.style.marginBottom = 0 + "rem";
+            worktarget.appendChild(myName);
+            var enterInput = document.createElement("input");
+            worktarget.appendChild(enterInput);
+            enterInput.addEventListener("click" , function(){
+                var letterInput = document.createElement("input");
+                letterInput.type="range";
+                letterInput.value =0;
+                worktarget.appendChild(letterInput);
+                var aplhaButton = document.createElement("button");
+                aplhaButton.innerHTML = "Add letter";
+                worktarget.appendChild(aplhaButton);
+            }) 
         </script>
     </div>
     <!-- END OF Part 7 -->
