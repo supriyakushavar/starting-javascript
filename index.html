@@ -425,8 +425,8 @@
                     checkboxName.name = "checkname";
                     table.rows[0].cells[j].appendChild(checkboxName);
                     checkboxName.checked = "true";
-                    checkboxName.onchange = function(event) {
-                        columnPos = Array.from(thead.querySelectorAll('input')).indexOf(checkboxName);
+                    checkboxName.onchange = function() {
+                        columnPos = Array.from(thead.querySelectorAll('input')).indexOf(event.target);
                         for (i = 0; i < rows.length; i++) {
                             var firstRow = document.getElementById("searchTable").rows[i];
                             firstRow.deleteCell(columnPos);
@@ -496,7 +496,7 @@
             boxParent.addEventListener('mousemove', moveBox);
         }
         function moveBox(){
-            boxMove.style.left = event.clientX + "px";
+            boxMove.style.left = event.clientX + (-300) + "px";
         }
         </script>
     </div>
@@ -515,20 +515,73 @@
         </div>
         <script>
             var worktarget = document.getElementById("target");
-            var myName = document.createElement("p");
-            myName.innerHTML ="Enter your first name:";
-            myName.style.marginBottom = 0 + "rem";
-            worktarget.appendChild(myName);
+            var label = document.createElement("p");
+            label.innerHTML ="Enter your first name:";
+            label.style.marginBottom = 0 + "rem";
+            worktarget.appendChild(label);
+
+
             var enterInput = document.createElement("input");
+            enterInput.style.display="table";
+            enterInput.id="enterName";
             worktarget.appendChild(enterInput);
+
             enterInput.addEventListener("click" , function(){
-                var letterInput = document.createElement("input");
-                letterInput.type="range";
-                letterInput.value =0;
-                worktarget.appendChild(letterInput);
-                var aplhaButton = document.createElement("button");
-                aplhaButton.innerHTML = "Add letter";
-                worktarget.appendChild(aplhaButton);
+                function addLetterButton(){
+                    var aplhaButton = document.createElement("button");
+                    aplhaButton.innerHTML = "Add letter";
+                    aplhaButton.id="addLetterBtn";
+                    aplhaButton.style.display="table";
+                    worktarget.appendChild(aplhaButton);
+                    //letterInput.classList.add("bg-dark" , "btn");
+                }
+                if(document.getElementById("addLetterBtn")){
+                    return;
+                }
+                else{
+                    addLetterButton();
+                }
+                
+                var i=0;
+                function addRange(){
+                    var letterElem = document.createElement("span");
+                    letterElem.innerHTML = "A";
+                    worktarget.appendChild(letterElem);
+                    var letterInput = document.createElement("input");
+                    letterInput.type="range";
+                    letterInput.value = 0;
+                    letterInput.max = 25;
+                    letterInput.name = "range";
+                    letterInput.style.display="table";
+                    letterInput.classList.add("custom-range");
+                    letterInput.style.width= 200 + "px";
+                    var addLetterButton = document.getElementById("addLetterBtn");
+                    worktarget.appendChild(letterInput);
+                    
+                    var letter = document.getElementsByName("range")[i];
+                    letter.addEventListener("input" , showLetter);
+                    function showLetter(){
+                        var alphaArray = new Array( 26 ).fill( 1 ).map( ( _, i ) => String.fromCharCode( 65 + i ) );
+                        var rangeValue = letterInput.value;
+                        letterElem.innerHTML =  alphaArray[rangeValue];
+                        //enterInput.value =  alphaArray[rangeValue];
+                    }
+                    i++;
+                }
+                addRange();
+                
+                var addLetterButton = document.getElementById("addLetterBtn");
+                let j = 0;
+                addLetterButton.addEventListener("click" , function(){
+                    var alphaArray = new Array( 26 ).fill( 1 ).map( ( _, i ) => String.fromCharCode( 65 + i ) );
+                    var selectedRange = document.getElementsByName("range")[j];
+                    selectedRange.disabled = true;
+                    var  selectedLetter = alphaArray[selectedRange.value];
+                    var inputLetter = document.getElementById("enterName");
+                    inputLetter.value += selectedLetter;
+                    j++;
+                   addRange();
+                })
             }) 
         </script>
     </div>
