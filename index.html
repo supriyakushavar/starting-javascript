@@ -514,7 +514,10 @@
             <div id="target"></div>
         </div>
         <script>
-            var worktarget = document.getElementById("target");
+            
+            function firstName(a , b){
+                
+            var worktarget = document.getElementById(b);
             var label = document.createElement("p");
             label.innerHTML ="Enter your first name:";
             label.style.marginBottom = 0 + "rem";
@@ -523,19 +526,19 @@
 
             var enterInput = document.createElement("input");
             enterInput.style.display="table";
-            enterInput.id="enterName";
+            enterInput.name="enterName";
             worktarget.appendChild(enterInput);
 
             enterInput.addEventListener("click" , function(){
                 function addLetterButton(){
                     var aplhaButton = document.createElement("button");
                     aplhaButton.innerHTML = "Add letter";
-                    aplhaButton.id="addLetterBtn";
+                    aplhaButton.classList.add("addLetterBtn");
                     aplhaButton.style.display="table";
                     worktarget.appendChild(aplhaButton);
                     //letterInput.classList.add("bg-dark" , "btn");
                 }
-                if(document.getElementById("addLetterBtn")){
+                if(document.getElementsByClassName("addLetterBtn")[a]){
                     return;
                 }
                 else{
@@ -544,20 +547,21 @@
                 
                 var i=0;
                 function addRange(){
+                    var newDiv = document.createElement("div");
+                    worktarget.appendChild(newDiv);
                     var letterElem = document.createElement("span");
                     letterElem.innerHTML = "A";
-                    worktarget.appendChild(letterElem);
+                    letterElem.style.paddingRight = 10 + "px";
+                    newDiv.appendChild(letterElem);
                     var letterInput = document.createElement("input");
                     letterInput.type="range";
                     letterInput.value = 0;
                     letterInput.max = 25;
                     letterInput.name = "range";
-                    letterInput.style.display="table";
                     letterInput.classList.add("custom-range");
                     letterInput.style.width= 200 + "px";
-                    var addLetterButton = document.getElementById("addLetterBtn");
-                    worktarget.appendChild(letterInput);
-                    
+                    var addLetterButton = document.getElementsByClassName("addLetterBtn")[a];
+                    letterElem.after(letterInput);
                     var letter = document.getElementsByName("range")[i];
                     letter.addEventListener("input" , showLetter);
                     function showLetter(){
@@ -570,19 +574,21 @@
                 }
                 addRange();
                 
-                var addLetterButton = document.getElementById("addLetterBtn");
+                var addLetterButton = document.getElementsByClassName("addLetterBtn")[a];
                 let j = 0;
                 addLetterButton.addEventListener("click" , function(){
                     var alphaArray = new Array( 26 ).fill( 1 ).map( ( _, i ) => String.fromCharCode( 65 + i ) );
                     var selectedRange = document.getElementsByName("range")[j];
                     selectedRange.disabled = true;
                     var  selectedLetter = alphaArray[selectedRange.value];
-                    var inputLetter = document.getElementById("enterName");
+                    var inputLetter = document.getElementsByName("enterName")[a];
                     inputLetter.value += selectedLetter;
                     j++;
                    addRange();
                 })
             }) 
+        }
+        firstName(0 , "target");
         </script>
     </div>
     <!-- END OF Part 7 -->
@@ -596,11 +602,11 @@
             <br/>
 
             <div id="target2"></div>
+           
         </div>
         <script>
             // You can put at most one line here
-
-            
+            firstName(1, "target2");
             
             
         </script>
